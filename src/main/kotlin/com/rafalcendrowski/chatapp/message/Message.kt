@@ -11,7 +11,7 @@ import java.time.Instant
 
 @Entity
 @Table(name = "messages")
-open class Message() {
+open class Message {
     open lateinit var content: String
     open lateinit var contentType: ContentType
     open lateinit var sent: Instant
@@ -20,18 +20,6 @@ open class Message() {
     open var messageId: Long? = null
     @ManyToOne
     open var user: User? = null
-
-    constructor(content: String,
-                contentType: ContentType,
-                sent: Instant,
-                messageId: Long? = null,
-                user: User? = null) : this() {
-        this.content = content
-        this.contentType = contentType
-        this.sent = sent
-        this.messageId = messageId
-        this.user = user
-    }
 }
 
 data class MessageVM(

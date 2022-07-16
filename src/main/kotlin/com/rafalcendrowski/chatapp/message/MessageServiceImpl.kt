@@ -8,8 +8,13 @@ class MessageServiceImpl(val messageRepository: MessageRepository, val userServi
 
     override fun persist(messageVM: MessageVM): MessageVM {
         val user = userService.findById(messageVM.user?.userId?:-1L)
-        val message = findById(messageVM.messageId?:-1L) ?:
-            Message(messageVM.content, messageVM.contentType, messageVM.sent, messageVM.messageId, user)
+        val message = Message().apply {
+            this.user = user
+            content = messageVM.content
+            contentType = messageVM.contentType
+            sent = messageVM.sent
+            messageId= messageVM.messageId
+        }
         messageRepository.save(message)
         return Mapper.mapToMessageVM(message)
     }

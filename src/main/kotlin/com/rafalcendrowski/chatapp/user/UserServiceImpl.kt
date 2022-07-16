@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 class UserServiceImpl(val userRepository: UserRepository) : UserService {
 
     override fun persist(userVM: UserVM): UserVM {
-        val user = (findById(userVM.userId?:-1L) ?: User()).apply {
+        val user = User().apply {
             username = userVM.username
             userId = userVM.userId
             lastSeenId = userVM.lastSeenId

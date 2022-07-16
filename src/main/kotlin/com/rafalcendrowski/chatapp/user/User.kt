@@ -9,7 +9,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "users")
-open class User() {
+open class User {
     open lateinit var username: String
     @OneToMany(mappedBy = "user")
     open lateinit var messages: MutableList<Message>
@@ -17,16 +17,6 @@ open class User() {
     @GeneratedValue
     open var userId: Long? = null
     open var lastSeenId: String? = null
-
-    constructor(username: String,
-                messages: MutableList<Message>,
-                userId: Long? = null,
-                lastSeenId: String? = null) : this() {
-        this.username = username
-        this.messages = messages
-        this.userId = userId
-        this.lastSeenId = lastSeenId
-    }
 }
 
 data class UserVM(
