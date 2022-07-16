@@ -7,14 +7,7 @@ import org.springframework.stereotype.Service
 class MessageServiceImpl(val messageRepository: MessageRepository, val userService: UserService) : MessageService {
 
     override fun persist(messageVM: MessageVM): MessageVM {
-        val user = userService.findById(messageVM.user?.userId?:-1L)
-        val message = Message().apply {
-            this.user = user
-            content = messageVM.content
-            contentType = messageVM.contentType
-            sent = messageVM.sent
-            messageId= messageVM.messageId
-        }
+        val message = Mapper.mapToMessage(messageVM)
         messageRepository.save(message)
         return Mapper.mapToMessageVM(message)
     }

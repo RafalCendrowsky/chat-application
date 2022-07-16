@@ -1,6 +1,7 @@
 package com.rafalcendrowski.chatapp.user
 
 import com.rafalcendrowski.chatapp.message.Message
+import com.rafalcendrowski.chatapp.message.MessageVM
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
@@ -21,9 +22,10 @@ open class User {
 
 data class UserVM(
         var username: String,
+        var messages: MutableList<MessageVM>,
         var userId: Long? = null,
         var lastSeenId: String? = null) {
     companion object {
-        val DEFAULT_USER = UserVM("anonymous")
+        val DEFAULT_USER = UserVM("anonymous", arrayListOf())
     }
 }
