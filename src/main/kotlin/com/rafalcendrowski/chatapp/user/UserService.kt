@@ -4,5 +4,5 @@ interface UserService {
 
     fun persist(userVM: UserVM): UserVM
 
-    fun findById(userId: String): User?
+    fun findById(userId: Long): User?
 }

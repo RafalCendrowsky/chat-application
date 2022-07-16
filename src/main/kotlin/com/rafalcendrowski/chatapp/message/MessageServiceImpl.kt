@@ -7,17 +7,17 @@ import org.springframework.stereotype.Service
 class MessageServiceImpl(val messageRepository: MessageRepository, val userService: UserService) : MessageService {
 
     override fun persist(messageVM: MessageVM): MessageVM {
-        val user = userService.findById(messageVM.user?.userId?:"")
-        val message = findById(messageVM.messageId?:"") ?:
+        val user = userService.findById(messageVM.user?.userId?:-1L)
+        val message = findById(messageVM.messageId?:-1L) ?:
             Message(messageVM.content, messageVM.contentType, messageVM.sent, messageVM.messageId, user)
         messageRepository.save(message)
         return Mapper.mapToMessageVM(message)
     }
 
-    override fun findById(id: String) : Message? = messageRepository.findById(id).orElse(null)
+    override fun findById(id: Long) : Message? = messageRepository.findById(id).orElse(null)
 
-    override fun findLatest(lastSeenId: String): List<MessageVM> {
-        return if (lastSeenId.isNotBlank()) {
+    override fun findLatest(lastSeenId: Long): List<MessageVM> {
+        return if (lastSeenId != -1L) {
             messageRepository.findLatestById(lastSeenId).map { Mapper.mapToMessageVM(it) }
         } else {
             messageRepository.findLatest().map { Mapper.mapToMessageVM(it) }

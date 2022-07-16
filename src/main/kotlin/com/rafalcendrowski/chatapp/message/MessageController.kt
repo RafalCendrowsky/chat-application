@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.*
 class MessageController(val messageService: MessageService) {
 
     @GetMapping(MESSAGES_LATEST)
-    fun getLatest(@RequestParam("messageId", defaultValue = "") messageId: String): ResponseEntity<List<MessageVM>> {
+    fun getLatest(@RequestParam("messageId", defaultValue = "-1") messageId: Long): ResponseEntity<List<MessageVM>> {
         val messages = messageService.findLatest(messageId)
         return if (messages.isEmpty()) {
             with(ResponseEntity.noContent()) {
-                header("messageId", messageId)
+                header("messageId", messageId.toString())
                 build<List<MessageVM>>()
             }
         } else {
             with(ResponseEntity.ok()) {
-                header("messageId", messageId)
+                header("messageId", messageId.toString())
                 body(messages)
             }
         }
@@ -28,7 +28,9 @@ class MessageController(val messageService: MessageService) {
     }
 
     @PostMapping
-    fun post(@RequestBody message: MessageVM) {
-        messageService.persist(message)
+    fun post(@RequestBody message: MessageVM) : ResponseEntity<MessageVM> {
+        return with(ResponseEntity.ok()) {
+            body(messageService.persist(message))
+        }
     }
 }

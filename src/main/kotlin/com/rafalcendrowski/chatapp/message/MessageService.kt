@@ -4,7 +4,7 @@ interface MessageService {
 
     fun persist(messageVM: MessageVM): MessageVM
 
-    fun findById(id: String): Message?
+    fun findById(id: Long): Message?
 
-    fun findLatest(lastSeenId: String = ""): List<MessageVM>
+    fun findLatest(lastSeenId: Long = -1L): List<MessageVM>
 }

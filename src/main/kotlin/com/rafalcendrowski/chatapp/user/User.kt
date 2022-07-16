@@ -1,17 +1,37 @@
 package com.rafalcendrowski.chatapp.user
 
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Table
+import com.rafalcendrowski.chatapp.message.Message
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.Id
+import jakarta.persistence.OneToMany
+import jakarta.persistence.Table
 
-@Table(name = "user")
-data class User(
-        var username: String,
-        @Id var userId: String? = null,
-        var lastSeenId: String? = null)
+@Entity
+@Table(name = "users")
+open class User() {
+    open lateinit var username: String
+    @OneToMany(mappedBy = "user")
+    open lateinit var messages: MutableList<Message>
+    @Id
+    @GeneratedValue
+    open var userId: Long? = null
+    open var lastSeenId: String? = null
+
+    constructor(username: String,
+                messages: MutableList<Message>,
+                userId: Long? = null,
+                lastSeenId: String? = null) : this() {
+        this.username = username
+        this.messages = messages
+        this.userId = userId
+        this.lastSeenId = lastSeenId
+    }
+}
 
 data class UserVM(
         var username: String,
-        var userId: String? = null,
+        var userId: Long? = null,
         var lastSeenId: String? = null) {
     companion object {
         val DEFAULT_USER = UserVM("anonymous")
