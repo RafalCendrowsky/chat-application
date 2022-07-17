@@ -28,7 +28,3 @@ data class MessageVM(
         val sent: Instant,
         var messageId: Long? = null,
         var user: UserVM? = null)
-
-enum class ContentType {
-    PLAIN
-}

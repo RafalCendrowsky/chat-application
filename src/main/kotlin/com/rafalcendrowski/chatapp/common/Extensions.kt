@@ -10,7 +10,7 @@ fun Message.mapToVM(): MessageVM {
         null -> UserVM.DEFAULT_USER
         else -> this.user!!.mapToUserVM()
     }
-    return MessageVM(this.content, this.contentType, this.sent, this.messageId, user)
+    return MessageVM(contentType.render(content), contentType, sent, messageId, user)
 }
 
 fun MessageVM.mapToMessage(): Message {

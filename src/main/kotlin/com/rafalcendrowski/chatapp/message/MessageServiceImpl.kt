@@ -1,11 +1,10 @@
 package com.rafalcendrowski.chatapp.message
 import com.rafalcendrowski.chatapp.common.mapToMessage
 import com.rafalcendrowski.chatapp.common.mapToVM
-import com.rafalcendrowski.chatapp.user.UserService
 import org.springframework.stereotype.Service
 
 @Service
-class MessageServiceImpl(val messageRepository: MessageRepository, val userService: UserService) : MessageService {
+class MessageServiceImpl(val messageRepository: MessageRepository) : MessageService {
 
     override fun persist(messageVM: MessageVM): MessageVM {
         return messageRepository.save(messageVM.mapToMessage()).mapToVM()
