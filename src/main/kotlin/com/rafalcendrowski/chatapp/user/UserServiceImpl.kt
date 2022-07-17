@@ -1,16 +1,14 @@
 package com.rafalcendrowski.chatapp.user
 
-import com.rafalcendrowski.chatapp.common.Mapper
-import com.rafalcendrowski.chatapp.message.Message
+import com.rafalcendrowski.chatapp.common.mapToUser
+import com.rafalcendrowski.chatapp.common.mapToUserVM
 import org.springframework.stereotype.Service
 
 @Service
 class UserServiceImpl(val userRepository: UserRepository) : UserService {
 
     override fun persist(userVM: UserVM): UserVM {
-        val user = Mapper.mapToUser(userVM)
-        userRepository.save(user)
-        return Mapper.mapToUserVM(user)
+        return userRepository.save(userVM.mapToUser()).mapToUserVM()
     }
 
     override fun save(user: User): User = userRepository.save(user)
